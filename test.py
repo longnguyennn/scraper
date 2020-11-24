@@ -1,12 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import Select
 import time
 
 def main():
   # prompt email + password
-  email = raw_input("email: ")
-  password = raw_input("password: ")
+  email = str(input("email: "))
+  password = str(input("password: "))
 
   # open browser and login
   driver = webdriver.Chrome()
@@ -15,9 +16,11 @@ def main():
   driver.find_element_by_id("password").send_keys(password)
   driver.find_element_by_xpath("//*[@id='sign-in-form']/button[1]").click()
 
+  time.sleep(5)
+
   # keep refreshing the page until the buy button appear
   while True:
-    driver.get("https://www.walmart.com/ip/PlayStation-5-Console/363472942")
+    driver.get("https://www.walmart.com/ip/Marvel-s-Spider-Man-Miles-Morales-Ultimate-Launch-Edition-Sony-PlayStation-5/795159051")
     try:
       buy_button = driver.find_element_by_xpath("//*[@id='add-on-atc-container']/div[1]/section/div[1]/div[2]/select")
       break
@@ -25,8 +28,8 @@ def main():
       continue
 
   # buy 2 ps5
-  driver.find_element_by_xpath("//*[@id='add-on-atc-container']/div[1]/section/div[1]/div[2]/select").selectByIndex(1)
-  driver.find_element_by_xpath("//*[@id='add-on-atc-container']/div[1]/section/div[1]/div[2]/select").click()
+  Select(driver.find_element_by_xpath("//*[@id='add-on-atc-container']/div[1]/section/div[1]/div[2]/select")).select_by_visible_text('2')
+  driver.find_element_by_xpath("//*[@id='add-on-atc-container']/div[1]/section/div[1]/div[3]/button/span").click()
 
   while True:
     time.sleep(5)
