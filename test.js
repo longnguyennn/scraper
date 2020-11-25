@@ -26,8 +26,20 @@ const puppeteer = require('puppeteer');
   const preloadFile = fs.readFileSync('./preload.js', 'utf8');
   await page.evaluateOnNewDocument(preloadFile);
 
-  await page.goto('https://walmart.com');
-  await page.screenshot({path: 'example.png'});
+  await page.goto('https://www.walmart.com/account/login');
+
+  await page.type('#email', 'longu97@bu.edu');
+  await page.type('#password', 'Deptraiqua123');
+
+  const login_button = await page.$x('//*[@id="sign-in-form"]/button[1]');
+  await login_button[0].click();
+  try {
+    await page.waitForNavigation();
+  } catch (err) {
+    await page.screenshot({ path: 'example.png' });
+  }
+
+  await page.screenshot({ path: 'example.png' });
 
   await browser.close();
 })();
